@@ -1,51 +1,27 @@
-''' create Notes class for user notes'''
-from sqlalchemy import String, Integer, LargeBinary, Column, Table, DateTime, ForeignKey, create_engine
+from sqlalchemy import Column, Integer, String, LargeBinary, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from base import Base, Session, engine
-from user import User
-from datetime import datetime
+from .base import Base, engine
+import datetime
 
-note_table = Table(
-   'note', Base.metadata,
-   Column('id', Integer, primary_key=True),
-   Column('title', String(100), nullable=False),
-   Column('description', String(500), nullable=False),
-   Column('upload', LargeBinary),
-   Column('created_at', DateTime),
-   Column('updated_at', DateTime),
-   Column('user_id', Integer, ForeignKey('user.id'))
-)
+class Note(Base):
+    __tablename__ = 'notes'
 
-class Notes(Base):
-   __table__ = note_table
-   user2 = relationship(User, back_populates="notes")
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String(100))
+    description = Column(String(1000))
+    upload = Column(LargeBinary)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    user_email = Column(String(50), ForeignKey('users.email'))
 
-   def __init__(self, title, description, upload, created_at, updated_at, user):
-       self.title = title
-       self.description = description
-       self.upload = upload
-       self.created_at = created_at
-       self.updated_at = updated_at
-       self.user = user
+    user = relationship('User', backref='notes')
 
-   @classmethod
-   def create(cls, title, description, upload, user):
-       session = Session()
-       note = cls(title=title, description=description, upload=upload, created_at=datetime.now(), updated_at=datetime.now(), user=user)
-       session.add(note)
-       session.commit()
-       return note
-
-   def update(self, **kwargs):
-       session = Session()
-       for key, value in kwargs.items():
-           setattr(self, key, value)
-       self.updated_at = datetime.now()
-       session.commit()
-
-   def delete(self):
-       session = Session()
-       session.delete(self)
-       session.commit()
-
+    def __init__(self, title, description, upload, user_email):
+        self.title = title
+        self.description = description
+        self.upload = upload
+        self.user_email = user_email
+        self.created_at = datetime.datetime.now()
+        self.updated_at = datetime.datetime.now()
+    
 Base.metadata.create_all(engine)

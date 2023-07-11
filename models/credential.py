@@ -1,58 +1,28 @@
-''' credential class '''
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, create_engine, Table
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
-from base import Base, Session, engine
-from user import User
-from datetime import datetime
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
+from .base import Base, engine
+import datetime
 
-credentials_table = Table(
-    'credentials', Base.metadata,
-    Column('id', Integer, primary_key=True),
-    Column('url', String(50)),
-    Column('username', String(50), nullable=False),
-    Column('password', String(50), nullable=False),
-    Column('owner', String(100), nullable=False),
-    Column('auto_fill', Boolean, default=False),
-    Column('created_at', DateTime),
-    Column('updated_at', DateTime),
-    Column('user_id', Integer, ForeignKey('user.id')),
-)
+class Credential(Base):
+    __tablename__ = 'credentials'
 
-class Credentials(Base):
-    ''' Credential class for the credentials to be stored '''
-    __table__ = credentials_table
-    user1 = relationship(User, back_populates="credentials")
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    url = Column(String(500))
+    username = Column(String(50))
+    password = Column(String(200))
+    auto_fill = Column(Boolean)
+    created_at = Column(DateTime)
+    updated_at = Column(DateTime)
+    user_email = Column(String(50), ForeignKey('users.email'))
+    user = relationship('User', backref='credentials')
 
-    def __init__(self, url, username, password, created_at, updated_at, user):
+    def __init__(self, url, username, password, auto_fill, user_email):
         self.url = url
         self.username = username
         self.password = password
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.user = user
-
-    @classmethod
-    def create(cls, url, username, password, user):
-        session = Session()
-        credential = cls(url=url, username=username, password=password, created_at=datetime.now(), updated_at=datetime.now(), user=user)
-        session.add(credential)
-        session.commit()
-        return credential
-
-    def update(self, **kwargs):
-        session = Session()
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        self.updated_at = datetime.now()
-        session.commit()
-
-    def delete(self):
-        session = Session()
-        session.delete(self)
-        session.commit()
-
-    def generate_password(self, length, content):
-        ''' generate password '''
-        # implementation of password generation
-
+        self.auto_fill = auto_fill
+        self.user_email = user_email
+        self.created_at = datetime.datetime.now()
+        self.updated_at = datetime.datetime.now()
+    
 Base.metadata.create_all(engine)

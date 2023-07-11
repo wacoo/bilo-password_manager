@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Page with Modal Menu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        /* Set the background color of the page */
+        body {
+            background-color: #e6f2ff;
+        }
+
+        /* Set the default font for the page */
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Set the style of the top menu */
+        .top-menu {
+            width: 100%;
+            background-color: #004d80;
+            height: 100px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            /* margin-bottom: 12px; */
+        }
+
+        /* Set the style of the logo */
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Set the style of the top menu items */
+        .top-menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .top-menu li {
+            margin: 0 10px;
+        }
+
+        .top-menu a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .top-menu a:hover {
+            text-decoration: underline;
+        }
+
+        /* Set the width of the menu when it is open */
+        .menu {
+            width: 30%;
+            background-color: #004d80;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-x: hidden;
+            transition: 0.5s;
+            z-index: 1;
+            margin-top: 112px;
+        }
+
+        /* Show the menu when the burger menu is clicked */
+        .menu-toggle:checked~.menu {
+            width: 0;
+        }
+
+        /* Set the style of the menu items */
+        .menu ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .menu ul li {
+            padding: 10px;
+            border-bottom: 1px solid #005c99;
+        }
+
+        .menu ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .menu ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Set the style of the burger menu */
+        .menu-toggle {
+            display: none;
+        }
+
+        .menu-toggle-label {
+            display: none;
+        }
+
+        /* Show the burger menu when the screen is less than 768px wide */
+        @media screen and (max-width: 768px) {
+
+            /* Hide the menu when the screen is less than 768px wide */
+            .menu {
+                width: 0;
+            }
+
+            /* Hide the menu items */
+            .menu ul {
+                display: none;
+            }
+
+            /* Set the style of the burger menu when it is checked */
+            .menu-toggle:checked~.menu-toggle-label:before {
+                content: '\2715';
+                color: #fff;
+            }
+
+            /* Show the menu items when the burger menu is clicked */
+            .menu-toggle:checked~.menu ul {
+                display: block;
+                text-align: center;
+            }
+
+            /* Set the background color of the top menu */
+            .top-menu {
+                background-color: #004d80;
+                margin-bottom: 0;
+            }
+
+            /* Set the style of the left menu */
+            .menu {
+                background-color: #1a1a1a;
+            }
+
+            /* Set the style of the modal menu */
+            .modal-content {
+                background-color: #1a1a1a;
+                color: #fff;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 600px;
+                transform: translateY(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- The top menu -->
+    <div class="top-menu">
+        <div class="logo">Logo</div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <!-- The left menu -->
+    <div class="menu">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </div>
+    <!-- The modal menu
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div> -->
+    <!-- The page content -->
+    <div class="content">
+        <h1>Welcome to my website</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat, mauris vel pharetra dictum, ipsum ex
+            faucibus metus, in lacinia mi augue in ex. Etiam non erat eget nisi eleifend elementum a id neque. Nullam id
+            nunc sed purus sodales feugiat. In tincidunt, ipsum eu egestas ultrices, ipsum enim tempus metus, a
+            consequat risus erat quis velit. Nullam vel augue eget enim dignissim gravida quis vel erat. Nam luctus
+            consectetur libero, at laoreet erat cursus sed. Aliquam erat volutpat. Sed justo risus, feugiat ut orci vel,
+            maximus placerat ex. Praesent vel aliquet mauris. Sed ac pharetra nibh. Pellentesque habitant morbi
+            tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+        <p>Nam lacinia, enim sit amet varius ultricies, mauris enim rhoncus purus, in fringilla purus sapien vel ex.
+            Duis egestas ultrices dolor, ac congue magna. Aliquam efficitur, mauris id rhoncus pulvinar, lectus sapien
+            finibus justo, a placerat est nisi sed velit. Nam ac nibh euismod, ullamcorper lorem sed, congue elit.
+            Maecenas dignissim ex quis dolor eleifend, et egestas lorem luctus. Sed sit amet risus suscipit, fringilla
+            urna ac, molestie urna. Nulla facilisi. Sed nec lorem varius, dictum augue in, dignissim enim. Integer
+            bibendum dolor at sapien aliquam, ac bibendum ipsum finibus. Donec id mi purus. Ut luctus nisl nec est
+            pulvinar, at blandit mauris interdum. Mauris bibendum imperdiet tortor, a lobortis ex fringilla id.</p>
+        <p>Donec id pretium magna. Vivamus vel purus eget nisi rutrum malesuada. Sed ultricies dolor a semper placerat.
+            Sed condimentum, enim eget tincidunt rutrum, purus quam commodo risus, ut facilisis sapien quam sit amet
+            eros. Sed pharetra vel elit eu consectetur. Sed efficitur erat vel sapien congue, eu aliquet arcu rutrum.
+            Integer ut est velit. Nullam non justo euismod, sodales nisi id, mattis elit. Donec euismod, velit vel
+            imperdiet vehicula, nibh mauris bibendum nulla, a aliquam lectus ipsum sed sapien. Suspendisse potenti.
+            Fusce fermentum nibh eget dolor lacinia, in gravida erat consectetur. Praesent eget mauris nec turpis ornare
+            ultrices id at magna. Donec sed diam non massa dapibus rhoncus in ac velit. Nulla et imperdiet leo, nec
+            sodales ipsum. Nullam euismod, risus vel eleifend luctus, arcu erat facilisis aug</p>
+    </div>
+</body>
+
+</html>
