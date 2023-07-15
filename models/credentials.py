@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from .base import Base, engine
+from models.base import Base
 import datetime
 
 class Credential(Base):
@@ -14,7 +14,7 @@ class Credential(Base):
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
     user_email = Column(String(50), ForeignKey('users.email'))
-    user = relationship('User', backref='credentials')
+    user = relationship('User', back_populates='credentials')
 
     def __init__(self, url, username, password, auto_fill, user_email):
         self.url = url
@@ -24,5 +24,3 @@ class Credential(Base):
         self.user_email = user_email
         self.created_at = datetime.datetime.now()
         self.updated_at = datetime.datetime.now()
-    
-Base.metadata.create_all(engine)

@@ -1,4 +1,4 @@
 use bilo_db;
 drop table credentials;
-drop table note;
-drop table user;
+drop table notes;
+drop table users;
