@@ -2,6 +2,9 @@ import functools
 import jwt 
 import uuid
 from flask import request, jsonify, current_app
+from redis import Redis
+
+redis_client = Redis(host='127.0.0.1', port=6379, db=0)
 
 class TokenAuth:
     def __init__(self, app=None):
@@ -15,14 +18,17 @@ class TokenAuth:
 
     def generate_token(self, email):
         token = str(uuid.uuid4())
-        current_app.redis_client.set(token, email)
-        current_app.redis_client.expire(token, 3600) # token expires in 1 hour
+        redis_client.set(token, email)
+        print('email', redis_client.get(token))
+        redis_client.expire(token, 3600) # token expires in 1 hour
         return token
 
     def validate_token(self, token):
-        user_id = current_app.redis_client.get(token)
-        if user_id:
-            return user_id.decode('utf-8')
+        token_only = token.split()[1]
+        email = redis_client.get(token_only)
+        print(token, email)
+        if email:
+            return email.decode('utf-8')
         else:
             return None
 
@@ -39,6 +45,6 @@ class TokenAuth:
             if not user_id:
                 return jsonify({"message": "Invalid token"}), 403
 
-            return f(user_id, *args, **kwargs)
+            return f(*args, **kwargs)
 
         return decorated

@@ -1,1 +1,2 @@
-curl -X POST -H "Content-Type: application/json" -d '{"fname": "John", "lname": "Doe", "email": "wac@example.com", "password": "password123"}' http://127.0.0.1:5000/auth/register
+curl -X POST -H "Content-Type: application/json" -d '{"fname": "Wondmagegn", "lname": "Chosha", "email": "wabaham9@gmail.com", "password": "pass123"}' http://127.0.0.1:5000/auth/register
+curl -X POST -H "Content-Type: application/json" -d '{"fname": "Bishaw", "lname": "Abraham", "email": "aboanarges@gmail.com", "password": "pass321"}' http://127.0.0.1:5000/auth/register
