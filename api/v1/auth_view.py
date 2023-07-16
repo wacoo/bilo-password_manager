@@ -47,7 +47,7 @@ def register():
     fname = data.get('fname')
     lname = data.get('lname')
     email = data.get('email')
-    password = data.get('password')
+    password = data.get('passwd')
 
     # Validate input
     if not fname:

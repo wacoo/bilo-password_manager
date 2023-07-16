@@ -1,8 +1,10 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 from api.v1.view import view
 from api.v1.auth_view import auth_view
 
 app = Flask(__name__)
+CORS(app)
 
 app.config["SECRET_KEY"] = '12345'
 #app.config.from_object('config.Config')

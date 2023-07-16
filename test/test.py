@@ -8,13 +8,13 @@ from models.notes import Note
 #session.add(user)
 #session.commit()
 
-user2 = User(fname='Wondmagegn', lname='Chosha', email='wabaham9@gmail.com', password='pass123')
+'''user2 = User(fname='Wondmagegn', lname='Chosha', email='wabaham9@gmail.com', password='pass123')
 session.add(user2)
 session.commit()
 
 user3 = User(fname='Bishaw', lname='Abraham', email='aboanarges@gmail.com', password='pass321')
 session.add(user3)
-session.commit()
+session.commit()'''
 
 u1 = session.query(User).filter_by(email='wabaham9@gmail.com').all()
 u2 = session.query(User).filter_by(email='aboanarges@gmail.com').all()
