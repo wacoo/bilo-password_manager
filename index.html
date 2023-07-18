@@ -7,10 +7,16 @@
     <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
+    <header class="header">
+        <a href=""><img src="" alt="Logo"></a>
+        <ul>
+            <li>Login</li>
+        </ul>
+    </header>
     <section class="register">
         <div class="frm_wrap">
             <h1>User registration</h1>
-            <form action="" id="frm">
+            <form action="" id="frm_register">
                 <input type="text" id="fname" name="fname" maxlength='50' placeholder="First name">
                 <br><br>
                 <input type="text" id="lname" name="lname" maxlength="50" placeholder="Last name">
@@ -24,11 +30,53 @@
                 <div class="btn_wrap">
                     <button type="submit" id="btn_register">Register</button>
                 </div>
-                <small class="info"></small>
+                <small class="info_register"></small>
             </form>
         </div>
         
     </section>
-    <script src="static/js/data.js"></script>
+    <section class="login">
+        <div class="frm_wrap">
+            <h1>Login</h1>
+            <form action="" id="frm_login">
+                <input type="email" id="email_login" name="email_login" placeholder="Email">
+                <br><br>
+                <input type="password" id="passwd_login" name="passwd_login" maxlength="50" placeholder="Password">
+                <br><br>
+                <div class="btn_wrap">
+                    <button type="submit" id="btn_login">Login</button>
+                </div>
+                <small class="info_login"></small>
+            </form>
+            <a id="link_register" href="#">Sign up</a>
+            <script type="module" src="index.js"></script>
+        </div>
+        
+    </section>
+
+    <section class="user_home">
+        <div class="frm_wrap">
+            <h1>Home</h1>
+            <div class="credentials" id="credentials">
+                <!-- <div class="top-bar">
+                    <h3>Credentials</h3>
+                </div>
+                <div class="box">
+                    <img src="static/images/default-icon.png" alt="">
+                    <p>http://facebook.com</p>
+                </div> -->
+            </div>
+            <div class="notes" id="notes">
+                <!-- <div class="top-bar">
+                    <h3>Secure notes</h3>
+                </div>
+                <div class="box">
+                    <img src="static/images/notepad.png" alt="">
+                    <p>Tomorrow's schedule</p>
+                </div> -->
+            </div>
+        </div>
+        
+    </section>
 </body>
 </html>

@@ -8,14 +8,42 @@ from auth.auth import TokenAuth
 view = Blueprint('view', __name__)
 auth = TokenAuth()
 
-@view.route('/')
-@auth.requires_token
+@view.route('/', methods=['GET', 'POST'])
+#@auth.requires_token
 def home():
     ''' Bilo Password Manager home page '''
+    email = 'wabaham9@gmail.com'#request.json.get("email")
     with current_app.app_context():
-      usrs = []
-      creds = session.query(Note).filter_by(id=1).all()
-      print(creds)
-      for usr in creds:
-         usrs.append(usr.__dict__['description'])
-      return jsonify({'result': usrs})
+      cred_lst = {}
+      note_lst = []
+      user_data = {}
+      account = {}
+      cred_collection = []
+      note_collection = []
+      notes = session.query(Note).filter_by(user_email=email).all()
+      creds = session.query(Credential).filter_by(user_email=email).all()
+      #user_data['credentials'] = creds
+      #user_data['notes'] = notes
+      for cred in creds:
+         cred_lst['url'] = cred.__dict__['url']
+         cred_lst['username'] = cred.__dict__['username']
+         cred_lst['password'] = cred.__dict__['password']
+         cred_lst['created_at'] = str(cred.__dict__['created_at'])
+         cred_lst['updated_at'] = str(cred.__dict__['updated_at'])
+         cred_lst['user_email'] = str(cred.__dict__['user_email'])
+         cred_collection.append(cred_lst)
+         cred_lst = {}
+         account = []
+      user_data['credentials'] = cred_collection
+      for note in notes:
+         account = {}
+         note_lst.append(note.__dict__['id'])
+         note_lst.append(note.__dict__['description'])
+         note_lst.append(str(note.__dict__['created_at']))
+         note_lst.append(str(note.__dict__['updated_at']))
+         account[note.__dict__['id']] = note_lst
+         note_collection.append(account)
+         note_lst = []
+         account = []
+      user_data['notes'] = note_collection
+      return jsonify({'result': user_data})

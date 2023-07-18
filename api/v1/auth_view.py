@@ -12,7 +12,7 @@ auth_view = Blueprint('auth_view', __name__)
 def login():
     # Get the username and password from the request
     email = request.json.get("email")
-    password = request.json.get("password")
+    password = request.json.get("passwd")
 
     # Validate input
     if not email:
@@ -35,7 +35,7 @@ def login():
         token = auth.generate_token(user.email)
 
         # Return the token to the client
-        return jsonify({"token": token}), 200
+        return jsonify({"token": token, 'email': user.email}), 200
     else:
         return jsonify({"message": "Invalid username or password"}), 401
 
