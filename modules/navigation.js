@@ -1,4 +1,6 @@
 import { loadUserData } from "./data.js";
+import { createBox } from "./nodes.js";
+
 const register = document.querySelector('.register');
 const login = document.querySelector('.login');
 const userHome = document.querySelector('.user_home');

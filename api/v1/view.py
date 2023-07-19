@@ -15,7 +15,7 @@ def home():
     email = 'wabaham9@gmail.com'#request.json.get("email")
     with current_app.app_context():
       cred_lst = {}
-      note_lst = []
+      note_lst = {}
       user_data = {}
       account = {}
       cred_collection = []
@@ -28,22 +28,19 @@ def home():
          cred_lst['url'] = cred.__dict__['url']
          cred_lst['username'] = cred.__dict__['username']
          cred_lst['password'] = cred.__dict__['password']
+         cred_lst['auto_fill'] = cred.__dict__['auto_fill']
          cred_lst['created_at'] = str(cred.__dict__['created_at'])
          cred_lst['updated_at'] = str(cred.__dict__['updated_at'])
          cred_lst['user_email'] = str(cred.__dict__['user_email'])
          cred_collection.append(cred_lst)
          cred_lst = {}
-         account = []
       user_data['credentials'] = cred_collection
       for note in notes:
-         account = {}
-         note_lst.append(note.__dict__['id'])
-         note_lst.append(note.__dict__['description'])
-         note_lst.append(str(note.__dict__['created_at']))
-         note_lst.append(str(note.__dict__['updated_at']))
-         account[note.__dict__['id']] = note_lst
-         note_collection.append(account)
-         note_lst = []
-         account = []
+         note_lst['id'] = note.__dict__['id']
+         note_lst['description'] = note.__dict__['description']
+         note_lst['created_at'] = str(note.__dict__['created_at'])
+         note_lst['updated_at'] = str(note.__dict__['updated_at'])
+         note_collection.append(note_lst)
+         note_lst = {}
       user_data['notes'] = note_collection
-      return jsonify({'result': user_data})
+      return jsonify(user_data)

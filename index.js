@@ -1,6 +1,6 @@
 import { registerUser, loginUser,loadUserData } from "./modules/data.js";
 import { Navigation } from "./modules/navigation.js";
-import { createBox } from "./modules/nodes.js";
+import { fillHome } from "./modules/nodes.js";
 
 const notes = document.getElementById('notes');
 const credentials = document.getElementById('credentials');
@@ -9,24 +9,9 @@ const nav = new Navigation();
 
 registerUser();
 loginUser();
-let tkn = sessionStorage.getItem('token');
-console.log(tkn);
-if(tkn) {
-    nav.showHome();
-    let data = sessionStorage.getItem('data');
-    const ud = {
-        title: ['Credentials', 'Notes'],
-        image: ['static/images/default-icon.png', 'static/images/notepad.png'],
-        data: data
-    }
-    //console.log(data);
-    createBox(credentials, ud, 0);
-    createBox(notes, ud, 1);
-} else {
-    nav.showLogin();
-    loginUser('passwd');
-}
 
+nav.showHome();
+fillHome();
 nav.addRegLinkListener();
 /*
 const cred_data = {

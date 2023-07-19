@@ -1,4 +1,5 @@
 import { Navigation } from "./navigation.js";
+import { fillHome } from "./nodes.js";
 
 const form_register = document.getElementById('frm_register');
 const form_login = document.getElementById('frm_login');
@@ -38,7 +39,7 @@ function registerUser() {
   });
 }
 
-function loginUser(type) {
+function loginUser(type='passwd') {
   form_login.addEventListener('submit', (event) => {
     event.preventDefault();
     const data = {
@@ -55,17 +56,18 @@ function loginUser(type) {
       const token = sessionStorage.getItem('token');
       headers.append('Authorization', `Bearer ${token}`);
     }
+    console.log('Headers:', headers);
+    console.log('Data:', data);
     postInputData(url_log, headers, data).then(
       (response) => {
         notifyLog.innerHTML = response.token;
-        console.log(response);
         sessionStorage.setItem('token', response.token);
         sessionStorage.setItem('email', response.email);
         nav.showHome();
-        
+        fillHome();        
       })
       .catch((err) => {
-        //console.log('Error:', err);
+        console.log('Error:', err);
         notifyLog.innerHTML = `Error:, ${err}`;
       });
     
@@ -98,7 +100,7 @@ function loadUserData() {
         sessionStorage.setItem('data', JSON.stringify(response));     
       })
       .catch((err) => {
-        //console.log('Error:', err);
+        console.log('Error:', err);
         notifyLog.innerHTML = `Error:, ${err}`;
       });
     }
